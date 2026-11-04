@@ -39,6 +39,11 @@ COPY --from=builder /app/dist ./dist
 # Copy node_modules từ builder (đã có đủ production deps)
 COPY --from=builder /app/node_modules ./node_modules
 
+# Copy mã nguồn & test để hỗ trợ chạy unit test trực tiếp trong container
+COPY src ./src
+COPY test ./test
+COPY tsconfig.json ./tsconfig.json
+
 # Mở cổng 8080 cho NestJS
 EXPOSE 8080
 

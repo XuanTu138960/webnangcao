@@ -23,8 +23,10 @@ describe('AuthService', () => {
   const mockUserRepository = {
     findOne: jest.fn().mockImplementation(({ where }) => {
       if (Array.isArray(where)) {
-        // [{ username: ... }, { email: ... }]
-        return Promise.resolve(null);
+        const found = where.some(
+          (cond) => cond.username === mockUser.username || cond.email === mockUser.email,
+        );
+        return Promise.resolve(found ? mockUser : null);
       }
       if (where.username === mockUser.username || where.email === mockUser.email) {
         return Promise.resolve(mockUser);

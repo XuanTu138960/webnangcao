@@ -71,32 +71,42 @@
 ## 🚀 Hướng Dẫn Chạy Bằng Docker (Khuyến nghị)
 
 ### Yêu cầu
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) đã cài đặt và đang chạy
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) đã cài đặt và đang chạy.
 - [Git](https://git-scm.com/)
 
-### Các bước
+### Các bước khởi chạy nhanh
 
-```bash
-# 1. Clone dự án
-git clone <repository-url>
-cd webnangcao
+```powershell
+# 1. Di chuyển vào thư mục dự án
+cd "C:\Users\Admin\OneDrive\Đính kèm\webnangcao"
 
-# 2. Tạo file .env từ template
-cp .env.example .env
-
-# 3. Build và khởi động tất cả services
-docker-compose up --build
-
-# Hoặc chạy ở background (detached mode)
-docker-compose up --build -d
+# 2. Khởi chạy bằng Docker Compose (Khuyến nghị cho PowerShell Windows)
+$env:DOCKER_BUILDKIT=0; docker compose up -d --build
 ```
 
-### Truy cập
-| Service | URL |
-|---------|-----|
-| 🌐 Frontend (React) | http://localhost:3000 |
-| ⚙️ Backend API (NestJS) | http://localhost:8080 |
-| 📚 Swagger Docs | http://localhost:8080/docs |
+> 💡 **Mẹo quan trọng cho Windows:** Nếu thư mục chứa ký tự tiếng Việt có dấu (`Đính kèm`), Docker BuildKit mặc định có thể báo lỗi `unable to prepare context: path ... not found`. Chỉ cần chạy kèm `$env:DOCKER_BUILDKIT=0;` ở đầu lệnh như trên hoặc chuyển dự án sang thư mục không dấu (như `C:\webnangcao` hoặc `C:\Users\Admin\Desktop\webnangcao`).
+
+### Kiểm tra trạng thái containers
+```powershell
+docker compose ps
+# Hoặc xem log
+docker compose logs -f
+```
+
+### Địa chỉ truy cập hệ thống
+| Service | URL | Mô tả |
+|---------|-----|-------|
+| 🌐 **Frontend (React)** | **[http://localhost:3000](http://localhost:3000)** | Giao diện Cookio đầy đủ tính năng |
+| ⚙️ **Backend API (NestJS)** | **[http://localhost:8080/health](http://localhost:8080/health)** | Kiểm tra tình trạng sức khỏe server |
+| 📚 **Swagger API Docs** | **[http://localhost:8080/api/docs](http://localhost:8080/api/docs)** | Tài liệu API tương tác chuẩn OpenAPI |
+
+### 🔒 Tính năng độc lập & Không trùng Database
+> Hệ thống sử dụng cơ sở dữ liệu **SQLite** lưu trữ độc lập bên trong Docker volume (`cookio-data`), backend lắng nghe tại cổng `8080`, frontend tại cổng `3000`. Hệ thống **hoàn toàn không sử dụng MySQL (port 3306)**, tách biệt 100% với các dự án PHP/MySQL hiện có trên máy tính của bạn, đảm bảo không có rủi ro trùng lặp hay ghi đè dữ liệu.
+
+### Dừng ứng dụng
+```powershell
+docker compose down
+```
 
 ### Dừng ứng dụng
 ```bash
@@ -150,13 +160,14 @@ npm start
 
 ## 🔑 Tài Khoản Demo
 
-| Tài khoản | Mật khẩu | Vai trò |
-|-----------|----------|---------|
-| `admin1111` | `admin123` | 👑 Admin |
-| `chef_lan` | `user123` | 👨‍🍳 Chef |
-| `user_demo` | `user123` | 👤 User |
+| Tài khoản / Email | Mật khẩu | Vai trò | Điểm nổi bật |
+|-------------------|----------|---------|--------------|
+| **`admin`** / `admin@cookio.vn` | `password123` | 👑 Quản trị viên (Admin) | Toàn quyền kiểm duyệt công thức, quản lý người dùng, xem thống kê hệ thống |
+| **`chef_lan`** / `lananh@cookio.vn` | `password123` | 👨‍🍳 Bếp trưởng (Chef) | Tác giả nhiều món ăn truyền thống, có thông báo và bài viết nổi bật |
+| **`me_bong`** / `mebong@cookio.vn` | `password123` | 🍲 Bếp cơm gia đình | Tác giả công thức sườn non kho, canh cua rau đay |
+| **`chu_nam_cook`** / `chunam@cookio.vn` | `password123` | 🐟 Món ngon miền Tây | Tác giả cá kho tộ, canh chua cá lóc |
 
-> **Lưu ý:** Dữ liệu demo được seed tự động khi khởi động lần đầu.
+> **Lưu ý:** Dữ liệu demo và các tài khoản trên được khởi tạo tự động (seed) khi khởi động lần đầu. Người dùng cũng có thể bấm nút **Đăng ký** trên giao diện để tạo tài khoản mới.
 
 ---
 
