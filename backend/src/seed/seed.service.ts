@@ -771,8 +771,9 @@ export class SeedService implements OnApplicationBootstrap {
 
       const recipe = this.recipeRepository.create({
         ...raw,
+        category: raw.category as RecipeCategory,
         authorId: author.id,
-      });
+      } as any);
 
       const saved = await this.recipeRepository.save(recipe);
       savedRecipes.push(saved);

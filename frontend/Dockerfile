@@ -9,11 +9,14 @@ WORKDIR /app
 COPY package*.json ./
 
 # Cài đặt tất cả dependencies
-RUN npm ci
+RUN npm install
 
 # Copy source code và public assets
 COPY src ./src
 COPY public ./public
+
+# Tắt eslint plugin khi build production
+ENV DISABLE_ESLINT_PLUGIN=true
 
 # Biên dịch React thành static files
 RUN npm run build

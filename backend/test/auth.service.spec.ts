@@ -66,8 +66,8 @@ describe('AuthService', () => {
 
   describe('register', () => {
     it('nên đăng ký tài khoản thành công và trả về token', async () => {
-      jest.spyOn(bcrypt, 'genSalt').mockResolvedValue('salt' as any);
-      jest.spyOn(bcrypt, 'hash').mockResolvedValue('hashed' as any);
+      jest.spyOn(bcrypt, 'genSalt').mockReturnValue(Promise.resolve('salt') as any);
+      jest.spyOn(bcrypt, 'hash').mockReturnValue(Promise.resolve('hashed') as any);
 
       const registerDto = {
         fullName: 'Nguyễn Xuân Tú',
@@ -91,7 +91,7 @@ describe('AuthService', () => {
     });
 
     it('nên đăng nhập thành công khi mật khẩu chính xác', async () => {
-      jest.spyOn(bcrypt, 'compare').mockResolvedValue(true as any);
+      jest.spyOn(bcrypt, 'compare').mockReturnValue(Promise.resolve(true) as any);
 
       const result = await service.login({
         email: '23010538@st.phenikaa-uni.edu.vn',

@@ -9,7 +9,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Cài đặt tất cả dependencies (bao gồm devDependencies)
-RUN npm ci
+RUN npm install
 
 # Copy toàn bộ source code
 COPY . .
@@ -31,7 +31,7 @@ RUN mkdir -p /app/data
 COPY package*.json ./
 
 # Chỉ cài production dependencies (nhẹ hơn)
-RUN npm ci --only=production
+RUN npm install --omit=dev
 
 # Copy build output từ stage builder
 COPY --from=builder /app/dist ./dist
