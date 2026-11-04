@@ -1,0 +1,75 @@
+# =============================================
+# .gitignore cho dự án Cookio (Node.js + React)
+# =============================================
+
+# --- Dependencies ---
+node_modules/
+**/node_modules/
+.pnp
+.pnp.js
+
+# --- Build Output ---
+dist/
+build/
+**/dist/
+**/build/
+
+# --- Biến môi trường (KHÔNG commit lên Git!) ---
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# --- Database SQLite ---
+*.db
+*.sqlite
+*.sqlite3
+data/
+
+# --- Log files ---
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+logs/
+*.log
+
+# --- Testing ---
+coverage/
+.nyc_output/
+
+# --- IDE & Editor ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+.DS_Store
+Thumbs.db
+
+# --- Docker ---
+docker-compose.override.yml
+
+# --- TypeScript ---
+*.tsbuildinfo
+
+# --- Cache ---
+.npm/
+.eslintcache
+.cache/
+.parcel-cache/
+
+# --- Temporary & Scripts ---
+tmp/
+temp/
+*.docx
+*.py
+scratch*
+build_seed*
+test_docx*
+
+__pycache__/

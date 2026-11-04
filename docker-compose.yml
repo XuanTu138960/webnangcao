@@ -1,0 +1,55 @@
+version: '3.8'
+
+# Docker Compose cho dự án Cookio - Website nấu ăn Việt Nam
+services:
+  # Backend NestJS
+  cookio-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: cookio-backend
+    ports:
+      - "8080:8080"
+    volumes:
+      # Volume lưu trữ database SQLite bền vững
+      - cookio-data:/app/data
+    environment:
+      - PORT=8080
+      - DB_PATH=/app/data/cookio.db
+      - JWT_SECRET=phenikaa_cookio_jwt_secret_key_2026
+      - JWT_EXPIRES_IN=7d
+      - FRONTEND_URL=http://localhost:3000
+      - NODE_ENV=production
+    networks:
+      - cookio-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Frontend React (phục vụ qua Nginx)
+  cookio-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: cookio-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - cookio-backend
+    networks:
+      - cookio-network
+    restart: unless-stopped
+
+# Mạng nội bộ cho các service
+networks:
+  cookio-network:
+    driver: bridge
+
+# Volume lưu trữ dữ liệu SQLite
+volumes:
+  cookio-data:
+    driver: local
